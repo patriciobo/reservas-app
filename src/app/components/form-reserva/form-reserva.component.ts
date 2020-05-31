@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
@@ -7,14 +8,17 @@ import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { faIdCard } from '@fortawesome/free-solid-svg-icons';
 import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
-import { CloseScrollStrategy } from '@angular/cdk/overlay';
-import { CdkPortalOutlet } from '@angular/cdk/portal';
+
 import { Reserva } from 'src/app/models/reserva';
+import { ReservaService } from 'src/app/services/reserva.service';
+
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'form-reserva',
   templateUrl: './form-reserva.component.html',
-  styleUrls: ['./form-reserva.component.css']
+  styleUrls: ['./form-reserva.component.css'],
+  providers: [ReservaService]
 })
 export class FormReservaComponent implements OnInit {
 
@@ -28,10 +32,15 @@ export class FormReservaComponent implements OnInit {
   FormReserva: FormGroup;
   CantidadOcupantes: number[] = [1, 2, 3, 4, 5, 6];
   reserva: Reserva;
+  fechaDesde: Date;
 
   constructor(
-    private formBuilder: FormBuilder
-    ) { }
+    private formBuilder: FormBuilder,
+    private reservaService: ReservaService,
+    private dialogRef: MatDialogRef<FormReservaComponent>,
+    @Inject(MAT_DIALOG_DATA) data) {
+      this.fechaDesde = data.fechaDesde
+  }
 
   ngOnInit(): void {
     this.FormReserva = this.formBuilder.group({
@@ -39,7 +48,7 @@ export class FormReservaComponent implements OnInit {
       ApellidoYNombre: [null],
       Telefono: [null],
       Correo: [null],
-      FechaDesde: [null],
+      FechaDesde: [this.fechaDesde, null],
       FechaHasta: [null],
       CantOcupantes: [null],
       MontoSenia: [null],
@@ -63,6 +72,14 @@ export class FormReservaComponent implements OnInit {
     console.log(this.FormReserva.value.MontoSenia);
     
     this.FormReserva.reset();
+  }
+
+  reservar(){
+    this.dialogRef.close();
+  }
+
+  cancelar(){
+    this.dialogRef.close();
   }
 
 }
