@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "reservasapp-f3c8d": {
+      "hosting": {
+        "reservas-app": [
+          "reservasapp-f3c8d"
+        ]
+      }
+    }
+  }
+}

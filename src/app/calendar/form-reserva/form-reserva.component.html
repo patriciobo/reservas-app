@@ -1,0 +1,155 @@
+<form [formGroup]="FormReserva" fxFlex fxLayout="column" class="formWidth">
+  <div>
+    <mat-toolbar color="primary">Registrar reserva</mat-toolbar>
+  </div>
+  <div fxFlex fxLayoutGap="10px" class="formulario">
+    <mat-form-field appearance="standard" class="fullWidth">
+      <mat-label
+        ><fa-icon [icon]="faUser"></fa-icon> Apellido y Nombre</mat-label
+      >
+      <input matInput formControlName="NombreYApellido" />
+      <mat-error>Requerido</mat-error>
+    </mat-form-field>
+    <br />
+    <div id="dniTelefono">
+      <mat-form-field
+        appearance="standard"
+        hintLabel="Solo números"
+        class="dni"
+      >
+        <mat-label><fa-icon [icon]="faIdCard"></fa-icon> DNI</mat-label>
+        <input matInput formControlName="Dni" />
+        <mat-error
+          *ngIf="
+            FormReserva.controls.Dni.invalid &&
+            !FormReserva.controls.Dni.getError('required') &&
+            !FormReserva.controls.Dni.getError('minlength')
+          "
+          >Solo números</mat-error
+        >
+        <mat-error *ngIf="FormReserva.controls.Dni.getError('minlength')"
+          >Mínimo 6 caracteres</mat-error
+        >
+        <mat-error *ngIf="FormReserva.controls.Dni.getError('required')"
+          >Requerido</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field
+        class="short"
+        appearance="standard"
+        hintLabel="Solo números"
+        class="telefono"
+      >
+        <mat-label><fa-icon [icon]="faPhone"></fa-icon> Teléfono</mat-label>
+        <input matInput formControlName="Telefono" />
+        <mat-error
+          *ngIf="
+            FormReserva.controls.Telefono.invalid &&
+            !FormReserva.controls.Telefono.getError('required') &&
+            !FormReserva.controls.Telefono.getError('minlength')
+          "
+          >Solo números</mat-error
+        >
+        <mat-error *ngIf="FormReserva.controls.Telefono.getError('minlength')"
+          >Mínimo 10 caracteres</mat-error
+        >
+        <mat-error *ngIf="FormReserva.controls.Telefono.getError('required')"
+          >Requerido</mat-error
+        >
+      </mat-form-field>
+    </div>
+    <br />
+    <mat-form-field appearance="standard" class="fullWidth">
+      <mat-label><fa-icon [icon]="faEnvelope"></fa-icon> Correo</mat-label>
+      <input type="email" matInput formControlName="Correo" email />
+      <mat-error *ngIf="FormReserva.controls.Correo.invalid"
+        >Correo Inválido</mat-error
+      >
+    </mat-form-field>
+    <br />
+
+    <div id="fechasYCantOcupantes">
+      <mat-form-field class="fecha">
+        <mat-label>Desde</mat-label>
+        <input
+          matInput
+          [matDatepicker]="pickerDesde"
+          formControlName="FechaDesde"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="pickerDesde"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #pickerDesde startView="month"></mat-datepicker>
+        <mat-error>Requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="fecha">
+        <mat-label>Hasta</mat-label>
+        <input
+          matInput
+          [matDatepicker]="pickerHasta"
+          formControlName="FechaHasta"
+          [min]="fechaHastaMinima"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="pickerHasta"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #pickerHasta startView="month"></mat-datepicker>
+        <mat-error>Requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="ocupantes" appearance="standard">
+        <mat-label><fa-icon [icon]="faUsers"></fa-icon></mat-label>
+        <mat-select formControlName="CantOcupantes">
+          <mat-option
+            *ngFor="let numero of CantidadOcupantes"
+            value="numero"
+            [value]="numero"
+            >{{ numero }}</mat-option
+          >
+        </mat-select>
+        <mat-error>Requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="cabania" appearance="standard">
+        <mat-label><fa-icon [icon]="faHome"></fa-icon></mat-label>
+        <mat-select formControlName="Cabania">
+          <mat-option
+            *ngFor="let numero of Cabanias"
+            value="numero"
+            [value]="numero"
+            >{{ numero }}</mat-option
+          >
+        </mat-select>
+        <mat-error>Requerido</mat-error>
+      </mat-form-field>
+    </div>
+    <br />
+    <mat-form-field appearance="standard" class="dinero">
+      <mat-label><fa-icon [icon]="faDollarSign"></fa-icon> Seña</mat-label>
+      <input matInput formControlName="MontoSenia" />
+      <mat-error>Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="dinero">
+      <mat-label><fa-icon [icon]="faMoneyCheckAlt"></fa-icon> Total </mat-label>
+      <input matInput formControlName="MontoTotal" />
+      <mat-error>Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-dialog-actions fxFlexAlign="end">
+      <button
+        class="mat-stroked-button mat-accent buttonMargin"
+        (click)="cancelar()"
+      >
+        Cancelar
+      </button>
+
+      <button class="mat-raised-button mat-primary" (click)="guardarReserva()">
+        Guardar
+      </button>
+    </mat-dialog-actions>
+  </div>
+</form>

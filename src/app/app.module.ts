@@ -1,69 +1,63 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatMomentDateModule } from "@angular/material-moment-adapter";
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
-import { DatepickerComponent } from './components/datepicker/datepicker.component';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
 import { FullCalendarModule } from '@fullcalendar/angular';
 
-import { AppComponent } from './app.component';
-import { FormReservaComponent } from './components/form-reserva/form-reserva.component';
-import { CalendarComponent } from './components/calendar/calendar.component';
-import { MenuComponent } from './components/menu/menu.component';
-import { DisponibilidadComponent } from './components/disponibilidad/disponibilidad.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ConsultaCalendariosComponent } from './components/consulta-calendarios/consulta-calendarios.component';
+import { MaterialModule } from './material.module';
+import { AppComponent } from './app.component';
+import { FormReservaComponent } from './calendar/form-reserva/form-reserva.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { MenuComponent } from './menu/menu.component';
+import { DisponibilidadComponent } from './disponibilidad/disponibilidad.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { AuthService } from './auth/auth.service';
+import { ReservaService } from './calendar/reserva.service';
+import { UIService } from './shared/ui.service';
 
-
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DatepickerComponent,
     FormReservaComponent,
     CalendarComponent,
     MenuComponent,
     DisponibilidadComponent,
-    ConsultaCalendariosComponent
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatMomentDateModule,
-    MatButtonModule,
     FullCalendarModule,
-    MatSelectModule,
-    MatToolbarModule,
-    MatDividerModule,
-    MatStepperModule,
-    MatDialogModule,
-
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
-  ],   
+    AppRoutingModule,
+    MaterialModule,
+    FlexLayoutModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+  ],
   exports: [],
-  providers: [{provide: MatDialogRef, useValue: {}}, {provide: LOCALE_ID, useValue: 'es'}],
+  providers: [
+    AuthService,
+    ReservaService,
+    { provide: LOCALE_ID, useValue: 'en-GB' },
+    UIService,
+  ],
   bootstrap: [AppComponent],
-  entryComponents: [FormReservaComponent]
+  entryComponents: [FormReservaComponent],
 })
-export class AppModule { }
+export class AppModule {}

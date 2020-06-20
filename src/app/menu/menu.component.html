@@ -1,0 +1,10 @@
+<mat-toolbar color="primary">
+  <div fxFlex fxLayout fxLayoutAlign="center center" *ngIf="!isAuthenticated">
+    <h3>Bienvenido!</h3>
+  </div>
+  <div fxFlex fxLayout fxLayoutAlign="center" *ngIf="isAuthenticated">
+    <a mat-button [routerLink]="['/disponibilidad']"> Disponibilidad </a>
+    <a mat-button [routerLink]="['/calendario']"> Calendario </a>
+    <a mat-button (click)="logout()"> Salir </a>
+  </div>
+</mat-toolbar>

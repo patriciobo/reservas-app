@@ -1,0 +1,55 @@
+.fecha {
+  width: 35%;
+  padding-right: 5px;
+}
+
+.ocupantes {
+  width: 15%;
+  padding-right: 10px;
+}
+
+.cabania {
+  width: 15%;
+}
+
+#dniTelefono {
+  width: 100%;
+}
+
+.dinero {
+  width: 30%;
+  padding-right: 10px;
+}
+
+.dni {
+  width: 50%;
+  padding-right: 5px;
+}
+.telefono {
+  width: 50%;
+  padding-left: 5px;
+}
+
+#fechasYCantOcupantes {
+  width: 100%;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.formWidth {
+  max-width: 540px;
+}
+
+.buttonMargin {
+  margin-right: 10px;
+}
+
+.formulario {
+  padding: 30px;
+}
+
+mat-dialog-actions {
+  justify-content: flex-end;
+}
