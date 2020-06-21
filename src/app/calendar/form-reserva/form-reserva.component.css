@@ -1,37 +1,35 @@
 .fecha {
-  width: 35%;
+  width: 50%;
   padding-right: 5px;
-}
-
-.ocupantes {
-  width: 15%;
-  padding-right: 10px;
-}
-
-.cabania {
-  width: 15%;
 }
 
 #dniTelefono {
   width: 100%;
 }
 
-.dinero {
-  width: 30%;
-  padding-right: 10px;
-}
-
 .dni {
   width: 50%;
   padding-right: 5px;
 }
+
 .telefono {
   width: 50%;
   padding-left: 5px;
 }
 
-#fechasYCantOcupantes {
-  width: 100%;
+.monto {
+  width: 30%;
+  padding-right: 10px;
+}
+
+.ocupantes {
+  width: 20%;
+  padding-right: 10px;
+}
+
+.cabania {
+  width: 20%;
+  padding-right: 10px;
 }
 
 .fullWidth {

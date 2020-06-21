@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  OnDestroy,
+  AfterViewChecked,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -11,9 +17,6 @@ import { FormReservaComponent } from './form-reserva/form-reserva.component';
 import { ReservaService } from './reserva.service';
 import { UIService } from '../shared/ui.service';
 
-import { Constants } from '../shared/constants';
-import { Evento } from './evento.model';
-
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -21,15 +24,11 @@ import { Evento } from './evento.model';
   providers: [ReservaService],
   encapsulation: ViewEncapsulation.None,
 })
-export class CalendarComponent implements OnInit, OnDestroy {
+export class CalendarComponent implements OnInit, AfterViewChecked, OnDestroy {
   isLoading = false;
   events = [];
   eventosSubscription: Subscription;
   isLoadingSubscription: Subscription;
-
-  color1 = Constants.color1;
-  color2 = Constants.color2;
-  color3 = Constants.color3;
 
   cabania1Checked = true;
   cabania2Checked = true;
@@ -40,6 +39,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     initialView: 'dayGridMonth',
     dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this),
+    eventDisplay: 'block',
     locale: 'es',
     timeZone: 'local',
     editable: true,
@@ -70,12 +70,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.reservaService.buscarEventos();
   }
 
+  ngAfterViewChecked() {
+    if (!this.isLoading && this.isLoadingSubscription) {
+      this.isLoadingSubscription.unsubscribe();
+    }
+  }
+
   handleDateClick(arg) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
     dialogConfig.data = {
+      isEditing: false,
       fechaDesde: arg.date,
     };
 
@@ -83,15 +90,20 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.dialog.open(FormReservaComponent, dialogConfig);
   }
 
-  handleEventClick(calEvent) {
+  handleEventClick(calEventInfo) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
 
+    dialogConfig.data = {
+      isEditing: true,
+      event: calEventInfo.event,
+    };
+
     this.dialog.open(FormReservaComponent, dialogConfig);
-    const oldColor = calEvent.el.style.backgroundColor;
-    console.log(oldColor);
-    calEvent.el.style.backgroundColor = '#ff4081';
+    // const oldColor = calEvent.el.style.backgroundColor;
+    // console.log(oldColor);
+    //calEvent.el.style.backgroundColor = '#ff4081';
   }
 
   filtrarCabania(event, id) {

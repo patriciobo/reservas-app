@@ -1,6 +1,9 @@
 <form [formGroup]="FormReserva" fxFlex fxLayout="column" class="formWidth">
-  <div>
+  <div *ngIf="!isEditing">
     <mat-toolbar color="primary">Registrar reserva</mat-toolbar>
+  </div>
+  <div *ngIf="isEditing">
+    <mat-toolbar color="accent">Editar reserva</mat-toolbar>
   </div>
   <div fxFlex fxLayoutGap="10px" class="formulario">
     <mat-form-field appearance="standard" class="fullWidth">
@@ -68,7 +71,7 @@
     </mat-form-field>
     <br />
 
-    <div id="fechasYCantOcupantes">
+    <div class="fullWidth">
       <mat-form-field class="fecha">
         <mat-label>Desde</mat-label>
         <input
@@ -99,7 +102,9 @@
         <mat-datepicker #pickerHasta startView="month"></mat-datepicker>
         <mat-error>Requerido</mat-error>
       </mat-form-field>
-
+    </div>
+    <br />
+    <div class="fullWidth">
       <mat-form-field class="ocupantes" appearance="standard">
         <mat-label><fa-icon [icon]="faUsers"></fa-icon></mat-label>
         <mat-select formControlName="CantOcupantes">
@@ -125,31 +130,36 @@
         </mat-select>
         <mat-error>Requerido</mat-error>
       </mat-form-field>
+
+      <mat-form-field appearance="standard" class="monto">
+        <mat-label><fa-icon [icon]="faDollarSign"></fa-icon> Seña</mat-label>
+        <input matInput formControlName="MontoSenia" />
+        <mat-error>Requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="standard" class="monto">
+        <mat-label
+          ><fa-icon [icon]="faMoneyCheckAlt"></fa-icon> Total
+        </mat-label>
+        <input matInput formControlName="MontoTotal" />
+        <mat-error>Requerido</mat-error>
+      </mat-form-field>
+
+      <mat-dialog-actions fxFlexAlign="end">
+        <button
+          class="mat-stroked-button mat-accent buttonMargin"
+          (click)="cancelar()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          class="mat-raised-button mat-primary"
+          (click)="guardarReserva()"
+        >
+          Guardar
+        </button>
+      </mat-dialog-actions>
     </div>
-    <br />
-    <mat-form-field appearance="standard" class="dinero">
-      <mat-label><fa-icon [icon]="faDollarSign"></fa-icon> Seña</mat-label>
-      <input matInput formControlName="MontoSenia" />
-      <mat-error>Requerido</mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="standard" class="dinero">
-      <mat-label><fa-icon [icon]="faMoneyCheckAlt"></fa-icon> Total </mat-label>
-      <input matInput formControlName="MontoTotal" />
-      <mat-error>Requerido</mat-error>
-    </mat-form-field>
-
-    <mat-dialog-actions fxFlexAlign="end">
-      <button
-        class="mat-stroked-button mat-accent buttonMargin"
-        (click)="cancelar()"
-      >
-        Cancelar
-      </button>
-
-      <button class="mat-raised-button mat-primary" (click)="guardarReserva()">
-        Guardar
-      </button>
-    </mat-dialog-actions>
   </div>
 </form>

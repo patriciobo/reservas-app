@@ -12,8 +12,13 @@
 
 .check {
   margin-right: 10px;
+  font-size: large;
 }
 
 .mat-dialog-container {
   padding: 0px !important;
+}
+
+.fc-event-main {
+  font-size: large;
 }

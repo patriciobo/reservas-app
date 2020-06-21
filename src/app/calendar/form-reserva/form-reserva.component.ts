@@ -1,5 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
@@ -13,11 +15,10 @@ import { faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
 import { Reserva } from '../reserva.model';
 import { Cliente } from '../cliente.model';
 import { Evento } from '../evento.model';
-import { Constants } from '../../shared/constants';
+import { Colors } from '../../shared/colors';
 
 import { ReservaService } from '../reserva.service';
-
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UIService } from 'src/app/shared/ui.service';
 
 @Component({
   selector: 'form-reserva',
@@ -25,7 +26,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./form-reserva.component.css'],
   providers: [ReservaService],
 })
-export class FormReservaComponent implements OnInit {
+export class FormReservaComponent implements OnInit, OnDestroy {
   faUser = faUser;
   faPhone = faPhone;
   faEnvelope = faEnvelope;
@@ -39,22 +40,42 @@ export class FormReservaComponent implements OnInit {
   CantidadOcupantes: number[] = [1, 2, 3, 4, 5, 6];
   Cabanias: number[] = [1, 2, 3];
 
+  eventosSubscription: Subscription;
   fechaDesde: Date;
   fechaHastaMinima;
+  eventos = [];
+  isEditing: boolean;
+  eventoAEditar: Evento;
 
   constructor(
     private formBuilder: FormBuilder,
     private reservaService: ReservaService,
     private dialogRef: MatDialogRef<FormReservaComponent>,
+    private uiService: UIService,
     @Inject(MAT_DIALOG_DATA) data
   ) {
-    this.fechaDesde = data.fechaDesde;
+    if (data.isEditing) {
+      this.isEditing = data.isEditing;
+      this.eventoAEditar = data.event;
+    } else {
+      this.isEditing = data.isEditing;
+      this.fechaDesde = data.fechaDesde;
+    }
   }
 
   ngOnInit(): void {
+    this.eventosSubscription = this.reservaService.eventosChanged.subscribe(
+      (eventos) => {
+        this.eventos = eventos;
+      }
+    );
+    this.reservaService.buscarEventos();
     this.buildForm();
-
-    this.limitarFechaHasta();
+    if (!this.isEditing) {
+      this.limitarFechaHasta();
+    } else {
+      this.inicializarCamposParaEdicion();
+    }
   }
 
   buildForm() {
@@ -113,12 +134,31 @@ export class FormReservaComponent implements OnInit {
     });
   }
 
+  inicializarCamposParaEdicion() {
+    const fechaHastaAMostrar: Date = new Date(
+      this.eventoAEditar.extendedProps.fechaHasta.toString()
+    );
+    fechaHastaAMostrar.setDate(fechaHastaAMostrar.getDate() - 1);
+    this.FormReserva.setValue({
+      NombreYApellido: this.eventoAEditar.extendedProps.cliente.nombreYApellido,
+      Dni: this.eventoAEditar.extendedProps.cliente.dni,
+      Telefono: this.eventoAEditar.extendedProps.cliente.telefono,
+      Correo: this.eventoAEditar.extendedProps.cliente.correo,
+      FechaDesde: this.eventoAEditar.extendedProps.fechaDesde,
+      FechaHasta: fechaHastaAMostrar,
+      CantOcupantes: this.eventoAEditar.extendedProps.cantOcupantes,
+      Cabania: this.eventoAEditar.extendedProps.idCabania,
+      MontoSenia: this.eventoAEditar.extendedProps.montoSenia,
+      MontoTotal: this.eventoAEditar.extendedProps.montoTotal,
+    });
+  }
+
   limitarFechaHasta() {
     this.fechaHastaMinima = new Date();
     this.fechaHastaMinima.setDate(this.fechaDesde.getDate() + 1);
   }
 
-  creacrCliente(): Cliente {
+  crearCliente(): Cliente {
     const cliente = new Cliente();
     cliente.dni = this.FormReserva.value.Dni;
     cliente.nombreYApellido = this.FormReserva.value.NombreYApellido;
@@ -144,38 +184,93 @@ export class FormReservaComponent implements OnInit {
     return reserva;
   }
 
+  crearEvento(reserva: Reserva): Evento {
+    const evento: Evento = {
+      title: reserva.idCabania + ' - ' + reserva.cliente.nombreYApellido,
+      start: reserva.fechaDesde,
+      end: reserva.fechaHasta,
+      extendedProps: reserva,
+      backgroundColor:
+        reserva.montoSenia === reserva.montoTotal
+          ? Colors.colorPagado
+          : Colors.colorDebe,
+    };
+
+    return evento;
+  }
+
   guardarReserva() {
     if (this.FormReserva.valid) {
-      const cliente = this.creacrCliente();
+      const cliente = this.crearCliente();
       const reserva = this.crearReserva(cliente);
-      const color = this.colorDelEvento(reserva.idCabania);
 
-      const event: Evento = {
-        title: reserva.idCabania + ' - ' + reserva.cliente.nombreYApellido,
-        start: reserva.fechaDesde,
-        end: reserva.fechaHasta,
-        extendedProps: reserva,
-        backgroundColor: color,
-      };
-      this.reservaService.guardarReserva(event);
-      this.dialogRef.close(event);
+      if (
+        (!this.isEditing &&
+          this.verificarDisponibilidad(
+            reserva.fechaDesde,
+            reserva.fechaHasta,
+            reserva.idCabania
+          )) ||
+        (this.isEditing &&
+          this.verificarDisponibilidad(
+            reserva.fechaDesde,
+            reserva.fechaHasta,
+            reserva.idCabania,
+            this.eventoAEditar.id
+          ))
+      ) {
+        const evento = this.crearEvento(reserva);
+
+        if (this.isEditing) {
+          const id = this.eventoAEditar.id;
+          this.reservaService.actualizarReserva(id, evento);
+        } else {
+          this.reservaService.guardarReserva(evento);
+        }
+        this.dialogRef.close();
+      }
     }
   }
 
-  colorDelEvento(idCabania: number): string {
-    switch (idCabania) {
-      case 1:
-        return Constants.color1;
-      case 2:
-        return Constants.color2;
-      case 3:
-        return Constants.color3;
-      default:
-        return Constants.color1;
-    }
+  verificarDisponibilidad(
+    fechaDesde: Date,
+    fechaHasta: Date,
+    idCabania: number,
+    idEvento?: string
+  ): boolean {
+    let result = true;
+
+    const fechaHastaParseada = new Date(fechaHasta.toString());
+    fechaHastaParseada.setDate(fechaHastaParseada.getDate() - 1);
+
+    this.eventos.forEach((e) => {
+      const fechaFinEvento = new Date(e.end.toString());
+      fechaFinEvento.setDate(fechaFinEvento.getDate() - 1);
+
+      if (
+        ((e.start <= fechaDesde && fechaDesde < fechaFinEvento) ||
+          (fechaDesde <= e.start && e.start < fechaHastaParseada)) &&
+        e.extendedProps.idCabania === idCabania &&
+        (idEvento == null || e.id !== idEvento)
+      ) {
+        this.uiService.showSnackBar(
+          'Existe otra reserva para la fecha y cabaña seleccionadas',
+          null,
+          3000
+        );
+        result = false;
+      }
+    });
+    return result;
   }
 
   cancelar() {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    if (this.eventosSubscription) {
+      this.eventosSubscription.unsubscribe();
+    }
   }
 }

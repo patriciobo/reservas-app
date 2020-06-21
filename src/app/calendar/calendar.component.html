@@ -8,7 +8,7 @@
 
   <div *ngIf="!isLoading">
     <mat-checkbox
-      [ngStyle]="{ color: color1, fontWeight: 'bold' }"
+      [ngStyle]="{ fontWeight: 'bold' }"
       [checked]="cabania1Checked"
       (change)="checkCabania1()"
       class="check"
@@ -16,7 +16,7 @@
       >Cabaña 1</mat-checkbox
     >
     <mat-checkbox
-      [ngStyle]="{ color: color2, fontWeight: 'bold' }"
+      [ngStyle]="{ fontWeight: 'bold' }"
       [checked]="cabania2Checked"
       (change)="checkCabania2()"
       class="check"
@@ -24,9 +24,10 @@
       >Cabaña 2</mat-checkbox
     >
     <mat-checkbox
-      [ngStyle]="{ color: color3, fontWeight: 'bold' }"
+      [ngStyle]="{ fontWeight: 'bold' }"
       [checked]="cabania3Checked"
       (change)="checkCabania3()"
+      class="check"
       indeterminate="false"
       >Cabaña 3</mat-checkbox
     >

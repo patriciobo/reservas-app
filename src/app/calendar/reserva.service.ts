@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { Subject, Subscription, Observable, BehaviorSubject } from 'rxjs';
-import { map, take, switchMap } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Evento } from './evento.model';
 import { UIService } from '../shared/ui.service';
@@ -55,23 +55,46 @@ export class ReservaService {
       );
   }
 
-  verificarDisponibilidad(
-    fechaDesde: Date,
-    fechaHasta: Date,
-    idCabania: number
-  ): boolean {
-    const eventosSuperpuestos = this.eventos.filter(
-      (e) =>
-        ((e.start <= fechaDesde && fechaDesde < e.end) ||
-          (fechaDesde <= e.start && e.start < fechaHasta)) &&
-        e.extendedProps.idCabania === idCabania
-    );
-    return eventosSuperpuestos.length === 0 ? true : false;
-  }
-
   guardarReserva(evento: Evento) {
     const eventoParseado = this.parsearEventoParaFirestore(evento);
-    this.firestore.collection('eventos').add(eventoParseado);
+    this.firestore
+      .collection('eventos')
+      .add(eventoParseado)
+      .then((response) =>
+        this.uiService.showSnackBar(
+          'Se guardó la reserva con éxito',
+          null,
+          3000
+        )
+      )
+      .catch((error) =>
+        this.uiService.showSnackBar(
+          'Ocurrió un error al intentar guardar la reserva: ' + error,
+          null,
+          3000
+        )
+      );
+  }
+
+  actualizarReserva(id: string, evento: Evento) {
+    const eventoParseado = this.parsearEventoParaFirestore(evento);
+    this.firestore
+      .doc('eventos/' + id)
+      .set(eventoParseado)
+      .then((response) =>
+        this.uiService.showSnackBar(
+          'Se actualizó la reserva con éxito',
+          null,
+          3000
+        )
+      )
+      .catch((error) =>
+        this.uiService.showSnackBar(
+          'Ocurrió un error al intentar actualizar la reserva: ' + error,
+          null,
+          3000
+        )
+      );
   }
 
   parsearEventoParaFirestore(evento: Evento): object {
