@@ -185,8 +185,17 @@ export class FormReservaComponent implements OnInit, OnDestroy {
   }
 
   crearEvento(reserva: Reserva): Evento {
+    const debe = reserva.montoSenia < reserva.montoTotal;
+    const titulo = debe
+      ? reserva.idCabania +
+        ' - ' +
+        reserva.cliente.nombreYApellido +
+        ' / Debe: $' +
+        (reserva.montoTotal - reserva.montoSenia)
+      : reserva.idCabania + ' - ' + reserva.cliente.nombreYApellido;
+
     const evento: Evento = {
-      title: reserva.idCabania + ' - ' + reserva.cliente.nombreYApellido,
+      title: titulo,
       start: reserva.fechaDesde,
       end: reserva.fechaHasta,
       extendedProps: reserva,
@@ -203,6 +212,11 @@ export class FormReservaComponent implements OnInit, OnDestroy {
     if (this.FormReserva.valid) {
       const cliente = this.crearCliente();
       const reserva = this.crearReserva(cliente);
+
+      if (reserva.montoSenia > reserva.montoTotal) {
+        this.FormReserva.controls.MontoSenia.setErrors({ invalid: true });
+        return;
+      }
 
       if (
         (!this.isEditing &&
@@ -258,6 +272,8 @@ export class FormReservaComponent implements OnInit, OnDestroy {
           null,
           3000
         );
+        this.FormReserva.controls.FechaDesde.setErrors({ invalid: true });
+        this.FormReserva.controls.FechaHasta.setErrors({ invalid: true });
         result = false;
       }
     });

@@ -84,7 +84,12 @@
           [for]="pickerDesde"
         ></mat-datepicker-toggle>
         <mat-datepicker #pickerDesde startView="month"></mat-datepicker>
-        <mat-error>Requerido</mat-error>
+        <mat-error *ngIf="FormReserva.controls.FechaDesde.getError('invalid')"
+          >Inválido</mat-error
+        >
+        <mat-error *ngIf="FormReserva.controls.FechaDesde.getError('required')"
+          >Requerido</mat-error
+        >
       </mat-form-field>
 
       <mat-form-field class="fecha">
@@ -100,7 +105,12 @@
           [for]="pickerHasta"
         ></mat-datepicker-toggle>
         <mat-datepicker #pickerHasta startView="month"></mat-datepicker>
-        <mat-error>Requerido</mat-error>
+        <mat-error *ngIf="FormReserva.controls.FechaHasta.getError('invalid')"
+          >Inválido</mat-error
+        >
+        <mat-error *ngIf="FormReserva.controls.FechaHasta.getError('required')"
+          >Requerido</mat-error
+        >
       </mat-form-field>
     </div>
     <br />
@@ -134,7 +144,12 @@
       <mat-form-field appearance="standard" class="monto">
         <mat-label><fa-icon [icon]="faDollarSign"></fa-icon> Seña</mat-label>
         <input matInput formControlName="MontoSenia" />
-        <mat-error>Requerido</mat-error>
+        <mat-error *ngIf="FormReserva.controls.MontoSenia.getError('invalid')"
+          >Inválido</mat-error
+        >
+        <mat-error *ngIf="FormReserva.controls.MontoSenia.getError('required')"
+          >Requerido</mat-error
+        >
       </mat-form-field>
 
       <mat-form-field appearance="standard" class="monto">
@@ -142,7 +157,9 @@
           ><fa-icon [icon]="faMoneyCheckAlt"></fa-icon> Total
         </mat-label>
         <input matInput formControlName="MontoTotal" />
-        <mat-error>Requerido</mat-error>
+        <mat-error *ngIf="FormReserva.controls.MontoTotal.getError('required')"
+          >Requerido</mat-error
+        >
       </mat-form-field>
 
       <mat-dialog-actions fxFlexAlign="end">
