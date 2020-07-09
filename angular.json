@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "reservas-app"
+  "defaultProject": "reservas-app",
+  "cli": {
+    "analytics": false
+  }
 }

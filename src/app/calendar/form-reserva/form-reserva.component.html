@@ -144,9 +144,6 @@
       <mat-form-field appearance="standard" class="monto">
         <mat-label><fa-icon [icon]="faDollarSign"></fa-icon> Seña</mat-label>
         <input matInput formControlName="MontoSenia" />
-        <mat-error *ngIf="FormReserva.controls.MontoSenia.getError('invalid')"
-          >Inválido</mat-error
-        >
         <mat-error *ngIf="FormReserva.controls.MontoSenia.getError('required')"
           >Requerido</mat-error
         >

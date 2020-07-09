@@ -185,7 +185,7 @@ export class FormReservaComponent implements OnInit, OnDestroy {
   }
 
   crearEvento(reserva: Reserva): Evento {
-    const debe = reserva.montoSenia < reserva.montoTotal;
+    const debe = +reserva.montoSenia < +reserva.montoTotal;
     const titulo = debe
       ? reserva.idCabania +
         ' - ' +
@@ -209,12 +209,16 @@ export class FormReservaComponent implements OnInit, OnDestroy {
   }
 
   guardarReserva() {
+    console.log('valid: '+this.FormReserva.valid)
+    this.FormReserva.controls['MontoSenia'].updateValueAndValidity();
+    this.FormReserva.controls['MontoTotal'].updateValueAndValidity();
     if (this.FormReserva.valid) {
       const cliente = this.crearCliente();
       const reserva = this.crearReserva(cliente);
 
-      if (reserva.montoSenia > reserva.montoTotal) {
+      if (+reserva.montoSenia > +reserva.montoTotal) {
         this.FormReserva.controls.MontoSenia.setErrors({ invalid: true });
+        this.FormReserva.controls.MontoTotal.setErrors({ invalid: true });
         return;
       }
 
