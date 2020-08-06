@@ -5,12 +5,14 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyBdomLPng28sYdrjbJE_A5GRKpCHZNgJRg',
-    authDomain: 'reservasapp-f3c8d.firebaseapp.com',
-    databaseURL: 'https://reservasapp-f3c8d.firebaseio.com',
-    projectId: 'reservasapp-f3c8d',
-    storageBucket: 'reservasapp-f3c8d.appspot.com',
-    messagingSenderId: '396091963245',
+    apiKey: "AIzaSyD45fP4i-8GEZhc1niTsJpmakZOtWOZZf0",
+    authDomain: "tesis-a16ed.firebaseapp.com",
+    databaseURL: "https://tesis-a16ed.firebaseio.com",
+    projectId: "tesis-a16ed",
+    storageBucket: "tesis-a16ed.appspot.com",
+    messagingSenderId: "538530200137",
+    appId: "1:538530200137:web:d464cc16c055bc893a9d98",
+    measurementId: "G-KRQPFRXH9Q"
   },
 };
 
