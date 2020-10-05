@@ -14,15 +14,15 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
 import { AppComponent } from './app.component';
-import { FormReservaComponent } from './calendar/form-reserva/form-reserva.component';
-import { CalendarComponent } from './calendar/calendar.component';
-import { MenuComponent } from './menu/menu.component';
-import { DisponibilidadComponent } from './disponibilidad/disponibilidad.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
-import { AuthService } from './auth/auth.service';
-import { ReservaService } from './calendar/reserva.service';
-import { UIService } from './shared/ui.service';
+import { FormReservaComponent } from './Components/calendar/form-reserva/form-reserva.component';
+import { CalendarComponent } from './Components/calendar/calendar.component';
+import { MenuComponent } from './Components/menu/menu.component';
+import { DisponibilidadComponent } from './Components/disponibilidad/disponibilidad.component';
+import { LoginComponent } from './Services/auth/login/login.component';
+import { SignupComponent } from './Services/auth/signup/signup.component';
+import { AuthService } from './Services/auth/auth.service';
+import { ReservaService } from './Services/reserva.service';
+import { UIService } from './Shared/ui.service';
 
 import { environment } from 'src/environments/environment';
 

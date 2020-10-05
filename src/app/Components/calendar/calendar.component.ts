@@ -14,8 +14,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 import { FormReservaComponent } from './form-reserva/form-reserva.component';
 
-import { ReservaService } from './reserva.service';
-import { UIService } from '../shared/ui.service';
+import { ReservaService } from '../../Services/reserva.service';
+import { UIService } from '../../Shared/ui.service';
 
 @Component({
   selector: 'app-calendar',

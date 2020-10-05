@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from '../../Services/auth/auth.service';
 import { Subscription } from 'rxjs';
+import { app } from 'firebase';
 
 @Component({
   selector: 'app-menu',

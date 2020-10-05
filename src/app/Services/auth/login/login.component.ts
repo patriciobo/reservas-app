@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { UIService } from 'src/app/shared/ui.service';
+import { UIService } from 'src/app/Shared/ui.service';
 import { Subscription } from 'rxjs';
 
 @Component({

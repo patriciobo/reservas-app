@@ -12,19 +12,20 @@ import { faIdCard } from '@fortawesome/free-solid-svg-icons';
 import { faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import { faMoneyCheckAlt } from '@fortawesome/free-solid-svg-icons';
 
-import { Reserva } from '../reserva.model';
-import { Cliente } from '../cliente.model';
-import { Evento } from '../evento.model';
-import { Colors } from '../../shared/colors';
+import { Reserva } from '../../../Models/reserva.model';
+import { Cliente } from '../../../Models/cliente.model';
+import { Evento } from '../../../Models/evento.model';
+import { Colors } from '../../../Shared/colors';
 
-import { ReservaService } from '../reserva.service';
-import { UIService } from 'src/app/shared/ui.service';
+import { ReservaService } from '../../../Services/reserva.service';
+import { UIService } from 'src/app/Shared/ui.service';
+import { TarifaService } from 'src/app/Services/tarifa.service';
 
 @Component({
   selector: 'form-reserva',
   templateUrl: './form-reserva.component.html',
   styleUrls: ['./form-reserva.component.css'],
-  providers: [ReservaService],
+  providers: [ReservaService, TarifaService],
 })
 export class FormReservaComponent implements OnInit, OnDestroy {
   faUser = faUser;
@@ -41,15 +42,20 @@ export class FormReservaComponent implements OnInit, OnDestroy {
   Cabanias: number[] = [1, 2, 3];
 
   eventosSubscription: Subscription;
+  tarifasSubscription: Subscription;
+
   fechaDesde: Date;
   fechaHastaMinima;
   eventos = [];
+  tarifas = [];
+
   isEditing: boolean;
   eventoAEditar: Evento;
 
   constructor(
     private formBuilder: FormBuilder,
     private reservaService: ReservaService,
+    private tarifaService: TarifaService,
     private dialogRef: MatDialogRef<FormReservaComponent>,
     private uiService: UIService,
     @Inject(MAT_DIALOG_DATA) data
@@ -69,7 +75,16 @@ export class FormReservaComponent implements OnInit, OnDestroy {
         this.eventos = eventos;
       }
     );
+
+    this.tarifasSubscription = this.tarifaService.tarifasChanged.subscribe(
+      (tarifas) => {
+        this.tarifas = tarifas;
+      }
+    );
+
     this.reservaService.buscarEventos();
+    this.tarifaService.buscarTarifas();
+    
     this.buildForm();
     if (!this.isEditing) {
       this.limitarFechaHasta();
@@ -283,6 +298,27 @@ export class FormReservaComponent implements OnInit, OnDestroy {
     });
     return result;
   }
+
+  calcularSubTotal() {
+    const fechaDesde = new Date(this.FormReserva.value.FechaDesde);
+    const fechaHasta = new Date(this.FormReserva.value.FechaHasta);
+    
+    const cantOcupantes = this.FormReserva.value.CantOcupantes;
+    const cantDias = this.calcularDiferenciaDeFechas(fechaDesde, fechaHasta) + 1; //Se suma 1 dia porque se cuenta desde que llego hasta el ultimo dia de hospedaje
+    
+    const total = 1500 * cantOcupantes * cantDias;
+
+    this.FormReserva.controls.MontoTotal.setValue(total);
+    console.log(cantOcupantes, cantDias, total);
+  }
+
+  calcularDiferenciaDeFechas(fechaDesde, fechaHasta){
+
+    fechaDesde = new Date(fechaDesde);
+    fechaHasta = new Date(fechaHasta);
+
+    return Math.floor((Date.UTC(fechaHasta.getFullYear(), fechaHasta.getMonth(), fechaHasta.getDate()) - Date.UTC(fechaDesde.getFullYear(), fechaDesde.getMonth(), fechaDesde.getDate()) ) /(1000 * 60 * 60 * 24));
+}
 
   cancelar() {
     this.dialogRef.close();

@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { DisponibilidadComponent } from './disponibilidad/disponibilidad.component';
-import { CalendarComponent } from './calendar/calendar.component';
-import { LoginComponent } from './auth/login/login.component';
-import { AuthGuard } from './auth/auth-guard';
+import { DisponibilidadComponent } from './Components/disponibilidad/disponibilidad.component';
+import { CalendarComponent } from './Components/calendar/calendar.component';
+import { LoginComponent } from './Services/auth/login/login.component';
+import { AuthGuard } from './Services/auth/auth-guard';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },

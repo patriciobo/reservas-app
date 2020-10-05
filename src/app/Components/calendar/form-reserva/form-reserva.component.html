@@ -130,7 +130,7 @@
 
       <mat-form-field class="cabania" appearance="standard">
         <mat-label><fa-icon [icon]="faHome"></fa-icon></mat-label>
-        <mat-select formControlName="Cabania">
+        <mat-select (closed)="calcularSubTotal()" formControlName="Cabania">
           <mat-option
             *ngFor="let numero of Cabanias"
             value="numero"
