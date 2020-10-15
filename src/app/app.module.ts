@@ -25,6 +25,7 @@ import { ReservaService } from './Services/reserva.service';
 import { UIService } from './Shared/ui.service';
 
 import { environment } from 'src/environments/environment';
+import { ReservasComponent } from './components/reservas/reservas.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { environment } from 'src/environments/environment';
     DisponibilidadComponent,
     LoginComponent,
     SignupComponent,
+    ReservasComponent,
   ],
   imports: [
     BrowserModule,

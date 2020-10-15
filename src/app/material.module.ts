@@ -13,6 +13,9 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -30,6 +33,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   exports: [
     CommonModule,
@@ -45,6 +51,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   providers: [{ provide: MatDialogRef, useValue: {} }],
 })

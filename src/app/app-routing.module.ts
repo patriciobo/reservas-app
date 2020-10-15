@@ -5,6 +5,7 @@ import { DisponibilidadComponent } from './Components/disponibilidad/disponibili
 import { CalendarComponent } from './Components/calendar/calendar.component';
 import { LoginComponent } from './Services/auth/login/login.component';
 import { AuthGuard } from './Services/auth/auth-guard';
+import { ReservasComponent } from './components/reservas/reservas.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -17,6 +18,11 @@ const appRoutes: Routes = [
   {
     path: 'calendario',
     component: CalendarComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'reservas',
+    component: ReservasComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '/calendario' },
