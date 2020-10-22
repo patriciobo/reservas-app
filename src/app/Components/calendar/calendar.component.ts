@@ -16,6 +16,8 @@ import { FormReservaComponent } from './form-reserva/form-reserva.component';
 
 import { ReservaService } from '../../Services/reserva.service';
 import { UIService } from '../../Shared/ui.service';
+import { CabanaService } from 'src/app/Services/cabana.service';
+import { Cabana } from 'src/app/Models/cabana.model';
 
 @Component({
   selector: 'app-calendar',
@@ -30,9 +32,8 @@ export class CalendarComponent implements OnInit, AfterViewChecked, OnDestroy {
   eventosSubscription: Subscription;
   isLoadingSubscription: Subscription;
 
-  cabania1Checked = true;
-  cabania2Checked = true;
-  cabania3Checked = true;
+  cabanas = [];
+  cabanasSubscription: Subscription;
 
   calendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin],
@@ -54,20 +55,33 @@ export class CalendarComponent implements OnInit, AfterViewChecked, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private reservaService: ReservaService,
-    private uiService: UIService
+    private uiService: UIService,
+    private cabanasService: CabanaService,
   ) {}
 
   ngOnInit(): void {
+
     this.isLoadingSubscription = this.uiService.loadingStateChanged.subscribe(
       (isLoading) => (this.isLoading = isLoading)
     );
+
+    this.cabanasSubscription = this.cabanasService.cabanasChanged.subscribe(
+      (cabanas) => {
+        cabanas.forEach(x => x.checked = true);
+        this.cabanas = cabanas;
+      }
+    );
+
     this.eventosSubscription = this.reservaService.eventosChanged.subscribe(
       (eventos) => {
         this.events = eventos;
         this.calendarOptions.events = this.events;
       }
     );
+
+    this.cabanasService.obtenerCabanias();
     this.reservaService.buscarEventos();
+
   }
 
   ngAfterViewChecked() {
@@ -86,7 +100,6 @@ export class CalendarComponent implements OnInit, AfterViewChecked, OnDestroy {
       fechaDesde: arg.date,
     };
 
-    // arg.dayEl.style.backgroundColor = 'red';
     this.dialog.open(FormReservaComponent, dialogConfig);
   }
 
@@ -101,9 +114,6 @@ export class CalendarComponent implements OnInit, AfterViewChecked, OnDestroy {
     };
 
     this.dialog.open(FormReservaComponent, dialogConfig);
-    // const oldColor = calEvent.el.style.backgroundColor;
-    // console.log(oldColor);
-    //calEvent.el.style.backgroundColor = '#ff4081';
   }
 
   filtrarCabania(event, id) {
@@ -116,47 +126,21 @@ export class CalendarComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
-  checkCabania1() {
-    this.cabania1Checked = !this.cabania1Checked;
-    if (this.cabania1Checked) {
-      this.calendarOptions.events = this.calendarOptions.events.concat(
-        this.events
-          .filter((event) => event.extendedProps.idCabania === 1)
-          .slice()
-      );
-    } else {
-      this.calendarOptions.events = this.calendarOptions.events
-        .filter((event) => event.extendedProps.idCabania !== 1)
-        .slice();
-    }
-  }
+  checkCabania(cabana: Cabana) {
 
-  checkCabania2() {
-    this.cabania2Checked = !this.cabania2Checked;
-    if (this.cabania2Checked) {
+    this.cabanas.forEach(x => x.id == cabana.id ? cabana.checked = !cabana.checked: true);
+    
+    let cab = this.cabanas.find(x => x.id == cabana.id);
+    
+    if (cab.checked) {
       this.calendarOptions.events = this.calendarOptions.events.concat(
         this.events
-          .filter((event) => event.extendedProps.idCabania === 2)
+          .filter((event) => event.extendedProps.idCabania == cabana.numero)
           .slice()
       );
     } else {
       this.calendarOptions.events = this.calendarOptions.events
-        .filter((event) => event.extendedProps.idCabania !== 2)
-        .slice();
-    }
-  }
-
-  checkCabania3() {
-    this.cabania3Checked = !this.cabania3Checked;
-    if (this.cabania3Checked) {
-      this.calendarOptions.events = this.calendarOptions.events.concat(
-        this.events
-          .filter((event) => event.extendedProps.idCabania === 3)
-          .slice()
-      );
-    } else {
-      this.calendarOptions.events = this.calendarOptions.events
-        .filter((event) => event.extendedProps.idCabania !== 3)
+        .filter((event) => event.extendedProps.idCabania != cabana.numero)
         .slice();
     }
   }

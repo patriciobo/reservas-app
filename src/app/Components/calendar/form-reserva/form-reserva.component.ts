@@ -20,6 +20,10 @@ import { Colors } from '../../../Shared/colors';
 import { ReservaService } from '../../../Services/reserva.service';
 import { UIService } from 'src/app/Shared/ui.service';
 import { TarifaService } from 'src/app/Services/tarifa.service';
+import { Estado } from 'src/app/Models/estado.model';
+import { EstadoService } from 'src/app/Services/estado.service';
+import { EstadosConst } from 'src/app/Shared/estados';
+import { CabanaService } from 'src/app/Services/cabana.service';
 
 @Component({
   selector: 'form-reserva',
@@ -43,11 +47,15 @@ export class FormReservaComponent implements OnInit, OnDestroy {
 
   eventosSubscription: Subscription;
   tarifasSubscription: Subscription;
+  estadosSubscription: Subscription;
+  cabanasSubscription: Subscription;
 
   fechaDesde: Date;
   fechaHastaMinima;
   eventos = [];
   tarifas = [];
+  estados = [];
+  cabanas = [];
 
   isEditing: boolean;
   eventoAEditar: Evento;
@@ -56,6 +64,8 @@ export class FormReservaComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private reservaService: ReservaService,
     private tarifaService: TarifaService,
+    private estadoService: EstadoService,
+    private cabanasService: CabanaService,
     private dialogRef: MatDialogRef<FormReservaComponent>,
     private uiService: UIService,
     @Inject(MAT_DIALOG_DATA) data
@@ -82,9 +92,23 @@ export class FormReservaComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.estadosSubscription = this.estadoService.estadosChanged.subscribe(
+      (estados) => {
+        this.estados = estados;
+      }
+    );
+
+    this.cabanasSubscription = this.cabanasService.cabanasChanged.subscribe(
+      (cabanas) => {
+        this.cabanas = cabanas;
+      }
+    );
+
     this.reservaService.buscarEventos();
     this.tarifaService.buscarTarifas();
-    
+    this.estadoService.buscarEstados();
+    this.cabanasService.obtenerCabanias();
+
     this.buildForm();
     if (!this.isEditing) {
       this.limitarFechaHasta();
@@ -186,15 +210,19 @@ export class FormReservaComponent implements OnInit, OnDestroy {
   crearReserva(cliente: Cliente): Reserva {
     const reserva = new Reserva();
     reserva.cliente = cliente;
+
+    reserva.fechaCreacion = new Date();
     reserva.fechaDesde = new Date(this.FormReserva.value.FechaDesde);
 
     reserva.fechaHasta = new Date(this.FormReserva.value.FechaHasta);
     reserva.fechaHasta.setDate(reserva.fechaHasta.getDate() + 1);
     reserva.cantOcupantes = this.FormReserva.value.CantOcupantes;
     reserva.idCabania = this.FormReserva.value.Cabania;
-
     reserva.montoSenia = this.FormReserva.value.MontoSenia;
     reserva.montoTotal = this.FormReserva.value.MontoTotal;
+    reserva.cabana = this.cabanas.find(x => x.numero == reserva.idCabania);
+
+    reserva.estado = this.determinarEstadoReserva(reserva);
 
     return reserva;
   }
@@ -202,12 +230,13 @@ export class FormReservaComponent implements OnInit, OnDestroy {
   crearEvento(reserva: Reserva): Evento {
     const debe = +reserva.montoSenia < +reserva.montoTotal;
     const titulo = debe
-      ? reserva.idCabania +
-        ' - ' +
-        reserva.cliente.nombreYApellido +
-        ' / Debe: $' +
-        (reserva.montoTotal - reserva.montoSenia)
-      : reserva.idCabania + ' - ' + reserva.cliente.nombreYApellido;
+      ? reserva.cabana.nombre +
+      ' - ' +
+      reserva.cliente.nombreYApellido +
+      ' / Debe: $' +
+      (reserva.montoTotal - reserva.montoSenia)
+      : reserva.cabana.nombre + ' - ' + reserva.cliente.nombreYApellido;
+
 
     const evento: Evento = {
       title: titulo,
@@ -215,18 +244,34 @@ export class FormReservaComponent implements OnInit, OnDestroy {
       end: reserva.fechaHasta,
       extendedProps: reserva,
       backgroundColor:
-        reserva.montoSenia === reserva.montoTotal
-          ? Colors.colorPagado
-          : Colors.colorDebe,
+        reserva.estado.color
     };
+
 
     return evento;
   }
 
+  determinarEstadoReserva(reserva: Reserva): Estado {
+
+    let estado: Estado;
+
+    reserva.montoSenia == reserva.montoTotal ? 
+      estado = this.estados.find(estados => estados.identificador === EstadosConst.estadoPagado):
+
+    reserva.montoSenia == 0 ? 
+      estado = this.estados.find(estados => estados.identificador === EstadosConst.estadoPendienteSeña):
+
+    estado = this.estados.find(estados => estados.identificador === EstadosConst.estadoSeñado);
+
+    return estado;
+  }
+
+
   guardarReserva() {
-    console.log('valid: '+this.FormReserva.valid)
+
     this.FormReserva.controls['MontoSenia'].updateValueAndValidity();
     this.FormReserva.controls['MontoTotal'].updateValueAndValidity();
+
     if (this.FormReserva.valid) {
       const cliente = this.crearCliente();
       const reserva = this.crearReserva(cliente);
@@ -253,7 +298,7 @@ export class FormReservaComponent implements OnInit, OnDestroy {
           ))
       ) {
         const evento = this.crearEvento(reserva);
-
+          
         if (this.isEditing) {
           const id = this.eventoAEditar.id;
           this.reservaService.actualizarReserva(id, evento);
@@ -302,23 +347,23 @@ export class FormReservaComponent implements OnInit, OnDestroy {
   calcularSubTotal() {
     const fechaDesde = new Date(this.FormReserva.value.FechaDesde);
     const fechaHasta = new Date(this.FormReserva.value.FechaHasta);
-    
+
     const cantOcupantes = this.FormReserva.value.CantOcupantes;
     const cantDias = this.calcularDiferenciaDeFechas(fechaDesde, fechaHasta) + 1; //Se suma 1 dia porque se cuenta desde que llego hasta el ultimo dia de hospedaje
-    
+
     const total = 1500 * cantOcupantes * cantDias;
 
     this.FormReserva.controls.MontoTotal.setValue(total);
-    console.log(cantOcupantes, cantDias, total);
+
   }
 
-  calcularDiferenciaDeFechas(fechaDesde, fechaHasta){
+  calcularDiferenciaDeFechas(fechaDesde, fechaHasta) {
 
     fechaDesde = new Date(fechaDesde);
     fechaHasta = new Date(fechaHasta);
 
-    return Math.floor((Date.UTC(fechaHasta.getFullYear(), fechaHasta.getMonth(), fechaHasta.getDate()) - Date.UTC(fechaDesde.getFullYear(), fechaDesde.getMonth(), fechaDesde.getDate()) ) /(1000 * 60 * 60 * 24));
-}
+    return Math.floor((Date.UTC(fechaHasta.getFullYear(), fechaHasta.getMonth(), fechaHasta.getDate()) - Date.UTC(fechaDesde.getFullYear(), fechaDesde.getMonth(), fechaDesde.getDate())) / (1000 * 60 * 60 * 24));
+  }
 
   cancelar() {
     this.dialogRef.close();

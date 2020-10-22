@@ -25,7 +25,7 @@ export class ReservasComponent implements OnInit, AfterViewInit, AfterViewChecke
   private sort: MatSort;
   private paginator: MatPaginator;
 
-  columnas: string[] = ['nombreYApellido', 'dni', 'idCabania', 'cantOcupantes', 'fechaDesde', 'fechaHasta'];
+  columnas: string[] = ['nombreYApellido', 'dni', 'idCabania', 'cantOcupantes', 'fechaDesde', 'fechaHasta', 'montoTotal', 'montoSenia', 'estado'];
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;

@@ -1,54 +1,52 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject, Subscription } from 'rxjs';
-import { Tarifa } from '../Models/tarifa.model';
-import { UIService } from '../Shared/ui.service';
 import { map } from 'rxjs/operators';
+import { Estado } from '../Models/estado.model';
+import { UIService } from '../Shared/ui.service';
 
 @Injectable({
-  providedIn: 'root' // ? 
+  providedIn: 'root'
 })
-export class TarifaService {
+export class EstadoService {
 
-  private tarifas: Tarifa[] = [];
+  private estados: Estado[] = [];
   private firestoreSubscription: Subscription;
-  tarifasChanged = new Subject<Tarifa[]>();
+  estadosChanged = new Subject<Estado[]>();
 
   constructor(
     private firestore: AngularFirestore,
     private uiService: UIService
   ) { }
 
-  buscarTarifas() {
+  buscarEstados() {
     this.uiService.loadingStateChanged.next(true);
     this.firestoreSubscription = this.firestore
-      .collection('tarifas')
+      .collection('estados')
       .snapshotChanges()
       .pipe(
         map((docArray) => {
           return docArray.map((doc: any) => {
-            const tarifa = doc.payload.doc.data();
+            const estado = doc.payload.doc.data();
             const id = doc.payload.doc.id;
-            tarifa.id = id;
-            tarifa.precioDia = tarifa.precioDia;
-            // Parse dates
-            tarifa.fechaDesde = tarifa.fechaDesde.toDate();
-            tarifa.fechaHasta = tarifa.fechaHasta.toDate();
 
-            return tarifa;
+            estado.id = id;
+            estado.descripcion = estado.descripcion;
+            estado.color = estado.color;
+
+            return estado;
           });
         })
       )
       .subscribe(
-        (tarifas: Tarifa[]) => {
-          this.tarifas = tarifas;
-          this.tarifasChanged.next([...this.tarifas]);
+        (estados: Estado[]) => {
+          this.estados = estados;
+          this.estadosChanged.next([...this.estados]);
           this.uiService.loadingStateChanged.next(false);
-
         },
         (error) => {
           this.uiService.showSnackBar(
-            error.message,
+            'Hubo un error al intentar obtener los estados, por favor intente de nuevo',
             null,
             3000
           );
@@ -56,4 +54,5 @@ export class TarifaService {
         }
       );
   }
+
 }

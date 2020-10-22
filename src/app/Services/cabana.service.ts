@@ -1,54 +1,52 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject, Subscription } from 'rxjs';
-import { Tarifa } from '../Models/tarifa.model';
-import { UIService } from '../Shared/ui.service';
 import { map } from 'rxjs/operators';
+import { Cabana } from '../Models/cabana.model';
+import { UIService } from '../Shared/ui.service';
 
 @Injectable({
-  providedIn: 'root' // ? 
+  providedIn: 'root'
 })
-export class TarifaService {
+export class CabanaService {
 
-  private tarifas: Tarifa[] = [];
+  private cabanas: Cabana[] = [];
   private firestoreSubscription: Subscription;
-  tarifasChanged = new Subject<Tarifa[]>();
+  cabanasChanged = new Subject<Cabana[]>();
 
   constructor(
     private firestore: AngularFirestore,
     private uiService: UIService
   ) { }
 
-  buscarTarifas() {
+  obtenerCabanias() {
     this.uiService.loadingStateChanged.next(true);
     this.firestoreSubscription = this.firestore
-      .collection('tarifas')
+      .collection('cabanias')
       .snapshotChanges()
       .pipe(
         map((docArray) => {
           return docArray.map((doc: any) => {
-            const tarifa = doc.payload.doc.data();
+            const cabana = doc.payload.doc.data();
             const id = doc.payload.doc.id;
-            tarifa.id = id;
-            tarifa.precioDia = tarifa.precioDia;
-            // Parse dates
-            tarifa.fechaDesde = tarifa.fechaDesde.toDate();
-            tarifa.fechaHasta = tarifa.fechaHasta.toDate();
+            
+            cabana.id = id;
+            cabana.numero = cabana.numero;
+            cabana.nombre = cabana.nombre;
 
-            return tarifa;
+            return cabana;
           });
         })
       )
       .subscribe(
-        (tarifas: Tarifa[]) => {
-          this.tarifas = tarifas;
-          this.tarifasChanged.next([...this.tarifas]);
+        (cabanas: Cabana[]) => {
+          this.cabanas = cabanas;
+          this.cabanasChanged.next([...this.cabanas]);
           this.uiService.loadingStateChanged.next(false);
-
         },
         (error) => {
           this.uiService.showSnackBar(
-            error.message,
+            'Hubo un error al intentar obtener las cabañas, por favor intente de nuevo',
             null,
             3000
           );
@@ -56,4 +54,6 @@ export class TarifaService {
         }
       );
   }
+
 }
+

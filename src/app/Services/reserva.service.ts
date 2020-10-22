@@ -32,6 +32,9 @@ export class ReservaService {
             // Parse dates
             evento.start = evento.start.toDate();
             evento.end = evento.end.toDate();
+
+            evento.extendedProps.cabana = evento.extendedProps.cabana;
+
             evento.extendedProps.fechaDesde = evento.extendedProps.fechaDesde.toDate();
             evento.extendedProps.fechaHasta = evento.extendedProps.fechaHasta.toDate();
             return evento;
@@ -45,6 +48,7 @@ export class ReservaService {
           this.uiService.loadingStateChanged.next(false);
         },
         (error) => {
+          console.log(error);
           this.uiService.showSnackBar(
             'Hubo un error al intentar obtener los eventos, por favor intente de nuevo',
             null,

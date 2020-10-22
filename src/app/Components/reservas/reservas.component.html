@@ -17,7 +17,7 @@
 
                 <ng-container matColumnDef="idCabania">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Cabaña </th>
-                    <td mat-cell *matCellDef="let reserva"> {{reserva.idCabania}} </td>
+                    <td mat-cell *matCellDef="let reserva"> {{reserva.cabana.nombre}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="cantOcupantes">
@@ -35,6 +35,21 @@
                     <td mat-cell *matCellDef="let reserva"> {{reserva.fechaHasta | date}} </td>
                 </ng-container>
                 
+                <ng-container matColumnDef="montoTotal">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
+                    <td mat-cell *matCellDef="let reserva"> {{reserva.montoTotal | currency:'USD'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="montoSenia">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Seña </th>
+                    <td mat-cell *matCellDef="let reserva"> {{reserva.montoSenia | currency:'USD'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                    <td [ngStyle]="{'background-color': reserva.estado.descripcion == 'Pendiente Seña' ? reserva.estado.color : ''}" mat-cell *matCellDef="let reserva"> {{reserva.estado.descripcion}} </td>
+                </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="columnas"></tr>
                 <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
             </table>

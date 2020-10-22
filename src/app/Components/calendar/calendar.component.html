@@ -1,39 +1,16 @@
 <div class="top" fxLayout="column" fxLayoutAlign="center center">
-  <full-calendar
-    class="myCalendar"
-    [options]="calendarOptions"
-    *ngIf="!isLoading"
-  >
+  <full-calendar class="myCalendar" [options]="calendarOptions" *ngIf="!isLoading">
   </full-calendar>
 
-  <div *ngIf="!isLoading">
-    <mat-checkbox
-      [ngStyle]="{ fontWeight: 'bold' }"
-      [checked]="cabania1Checked"
-      (change)="checkCabania1()"
-      class="check"
-      indeterminate="false"
-      color="primary"
-      >Cabaña 1</mat-checkbox
-    >
-    <mat-checkbox
-      [ngStyle]="{ fontWeight: 'bold' }"
-      [checked]="cabania2Checked"
-      (change)="checkCabania2()"
-      class="check"
-      indeterminate="false"
-      color="primary"
-      >Cabaña 2</mat-checkbox
-    >
-    <mat-checkbox
-      [ngStyle]="{ fontWeight: 'bold' }"
-      [checked]="cabania3Checked"
-      (change)="checkCabania3()"
-      class="check"
-      indeterminate="false"
-      color="primary"
-      >Cabaña 3</mat-checkbox
-    >
+  <div *ngIf="!isLoading && cabanas.length > 0">
+    <div *ngFor="let cabana of cabanas; let i = index">
+      <mat-checkbox [ngStyle]="{ fontWeight: 'bold' }" 
+                    [checked]="cabana.checked" 
+                    (change)="checkCabania(cabana)"
+                    class="check" indeterminate="false" color="primary">
+        {{cabana.nombre}} 
+      </mat-checkbox>
+    </div>
   </div>
 
   <mat-spinner *ngIf="isLoading"></mat-spinner>
