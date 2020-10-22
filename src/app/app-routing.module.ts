@@ -6,6 +6,7 @@ import { CalendarComponent } from './Components/calendar/calendar.component';
 import { LoginComponent } from './Services/auth/login/login.component';
 import { AuthGuard } from './Services/auth/auth-guard';
 import { ReservasComponent } from './components/reservas/reservas.component';
+import { CheckInComponent } from './Components/check-in/check-in.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -25,7 +26,12 @@ const appRoutes: Routes = [
     component: ReservasComponent,
     canActivate: [AuthGuard],
   },
-  { path: '**', redirectTo: '/calendario' },
+  {
+    path: 'checkin',
+    component: CheckInComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: '**', redirectTo: '/checkin' },
 ];
 
 @NgModule({

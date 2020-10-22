@@ -16,6 +16,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatListModule} from '@angular/material/list';
+import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon'
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [],
@@ -35,7 +39,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatCheckboxModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatListModule,
+    MatCardModule,
+    MatIconModule,
+    MatExpansionModule,
   ],
   exports: [
     CommonModule,
@@ -53,7 +61,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatCheckboxModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatListModule,
+    MatCardModule,
+    MatIconModule,
+    MatExpansionModule,
   ],
   providers: [{ provide: MatDialogRef, useValue: {} }],
 })
