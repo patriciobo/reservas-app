@@ -1,7 +1,7 @@
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 60%;
+    width: 40%;
     margin-top: 2%;
   }
   
@@ -10,7 +10,7 @@
   }
   
   .container {
-    padding: 10px 100px;
+    padding: 10px 10px;
   }
 
   .mat-form-field + .mat-form-field {
@@ -18,20 +18,5 @@
   }
 
   .panelDescription {
-    width: 200px;
+    width: 190px;
   }
-  
-  @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
-body {
-  font-family: Roboto, Arial, sans-serif;
-  margin: 0;
-}
-.basic-container {
-  padding: 30px;
-}
-.version-info {
-  font-size: 8pt;
-  float: right;
-  margin: 8px;
-}

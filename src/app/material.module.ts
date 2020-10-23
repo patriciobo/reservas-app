@@ -20,6 +20,9 @@ import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon'
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatStepperModule} from '@angular/material/stepper';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [],
@@ -44,6 +47,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatCardModule,
     MatIconModule,
     MatExpansionModule,
+    MatSidenavModule,
+    MatStepperModule,
+    BrowserAnimationsModule
   ],
   exports: [
     CommonModule,
@@ -66,6 +72,10 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatCardModule,
     MatIconModule,
     MatExpansionModule,
+    MatSidenavModule,
+    MatStepperModule,
+    BrowserAnimationsModule
+
   ],
   providers: [{ provide: MatDialogRef, useValue: {} }],
 })

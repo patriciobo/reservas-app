@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,7 +17,7 @@ import { UIService } from 'src/app/Shared/ui.service';
 export class CheckInComponent implements OnInit {
 
   eventosMat = new MatTableDataSource<Evento>();
-  eventos: Evento [] = [];
+  eventos: Evento[] = [];
   isLoading = false;
   panelOpenState = false;
   isLoadingSubscription: Subscription;
@@ -44,7 +45,7 @@ export class CheckInComponent implements OnInit {
   constructor(
     private reservaService: ReservaService,
     private uiService: UIService
-  ) {}
+  ) { }
 
 
 
@@ -52,10 +53,15 @@ export class CheckInComponent implements OnInit {
     this.isLoadingSubscription = this.uiService.loadingStateChanged.subscribe(
       (isLoading) => (this.isLoading = isLoading)
     );
+
     this.eventosSubscription = this.reservaService.eventosChanged.subscribe(
       (eventos) => {
+        eventos.sort(function (a) {
+          if (a.extendedProps.estado.descripcion != "Pagado Total") return 1;
+          else return -1;
+        });
+
         this.eventos = eventos;
-        console.log(this.eventos);
       }
     );
 
@@ -66,7 +72,7 @@ export class CheckInComponent implements OnInit {
     this.eventosMat.sort = this.sort;
   }
 
-  mostrarDetalleReserva(reserva: Reserva): void{  
+  mostrarDetalleReserva(reserva: Reserva): void {
     console.log(reserva);
   }
 

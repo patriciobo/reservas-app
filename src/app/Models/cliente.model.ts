@@ -1,6 +1,8 @@
 export class Cliente {
   dni: number;
   nombreYApellido: string;
-  telefono: number;
-  correo?: string;
+  telefono?: number;
+  email?: string;
+  fechaNacimiento?: Date;
+  
 }

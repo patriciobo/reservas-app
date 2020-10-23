@@ -18,39 +18,33 @@
                 <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                   <mat-expansion-panel-header>
                     <mat-panel-title class="left-aligned-header">
-                      Ver Detalles
+                      {{evento.extendedProps.estado.descripcion}}
                     </mat-panel-title>
                   </mat-expansion-panel-header>
-                  <mat-panel-description class="panelDescription">
-                    Estado: {{evento.extendedProps.estado.descripcion}}
-                  </mat-panel-description>
-                  <mat-panel-description class="panelDescription">
-                    MontoTotal: {{evento.extendedProps.montoTotal | currency: 'USD'}}
-                  </mat-panel-description>
                   <mat-panel-description class="panelDescription">
                     Seña: {{evento.extendedProps.montoSenia | currency: 'USD'}}
                   </mat-panel-description>
                   <mat-panel-description class="panelDescription">
-                    Saldo Restante:
+                    Total: {{evento.extendedProps.montoTotal | currency: 'USD'}}
+                  </mat-panel-description>
+                  <mat-panel-description class="panelDescription">
+                    Saldo a pagar:
                     {{evento.extendedProps.montoTotal - evento.extendedProps.montoSenia | currency: 'USD'}}
                   </mat-panel-description>
 
                 </mat-expansion-panel>
               </mat-accordion>
 
-              <mat-card-actions style="margin-top: 2%;">
-                <a mat-button [routerLink]="['/calendario']"> Realizar Check IN <mat-icon
-                    title="Ver detalle de reserva">find_in_page</mat-icon></a>
+              <mat-card-actions style="margin-top: 2%; margin-left:2%">
+                <a mat-button [routerLink]="['/registrocheckin']"> Realizar Check In <mat-icon
+                    title="Realizar Check IN">filter_frames</mat-icon></a>
               </mat-card-actions>
 
             </mat-list-item>
 
           </mat-list>
-
-
         </mat-card-content>
       </mat-card>
-
     </div>
   </div>
 </div>

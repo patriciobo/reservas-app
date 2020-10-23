@@ -7,6 +7,7 @@ import { LoginComponent } from './Services/auth/login/login.component';
 import { AuthGuard } from './Services/auth/auth-guard';
 import { ReservasComponent } from './components/reservas/reservas.component';
 import { CheckInComponent } from './Components/check-in/check-in.component';
+import { RegistrocheckinComponent } from './Components/registrocheckin/registrocheckin.component';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -31,7 +32,13 @@ const appRoutes: Routes = [
     component: CheckInComponent,
     canActivate: [AuthGuard],
   },
-  { path: '**', redirectTo: '/checkin' },
+  {
+    path: 'registrocheckin',
+    component: RegistrocheckinComponent,
+    canActivate: [AuthGuard],
+  },
+
+  { path: '**', redirectTo: '/registrocheckin' },
 ];
 
 @NgModule({

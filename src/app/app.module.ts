@@ -27,6 +27,8 @@ import { UIService } from './Shared/ui.service';
 import { environment } from 'src/environments/environment';
 import { ReservasComponent } from './components/reservas/reservas.component';
 import { CheckInComponent } from './Components/check-in/check-in.component';
+import { RegistrocheckinComponent } from './Components/registrocheckin/registrocheckin.component';
+
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { CheckInComponent } from './Components/check-in/check-in.component';
     SignupComponent,
     ReservasComponent,
     CheckInComponent,
+    RegistrocheckinComponent,
+
   ],
   imports: [
     BrowserModule,

@@ -182,7 +182,7 @@ export class FormReservaComponent implements OnInit, OnDestroy {
       NombreYApellido: this.eventoAEditar.extendedProps.cliente.nombreYApellido,
       Dni: this.eventoAEditar.extendedProps.cliente.dni,
       Telefono: this.eventoAEditar.extendedProps.cliente.telefono,
-      Correo: this.eventoAEditar.extendedProps.cliente.correo,
+      Correo: this.eventoAEditar.extendedProps.cliente.email,
       FechaDesde: this.eventoAEditar.extendedProps.fechaDesde,
       FechaHasta: fechaHastaAMostrar,
       CantOcupantes: this.eventoAEditar.extendedProps.cantOcupantes,
@@ -202,7 +202,7 @@ export class FormReservaComponent implements OnInit, OnDestroy {
     cliente.dni = this.FormReserva.value.Dni;
     cliente.nombreYApellido = this.FormReserva.value.NombreYApellido;
     cliente.telefono = this.FormReserva.value.Telefono;
-    cliente.correo = this.FormReserva.value.Correo;
+    cliente.email = this.FormReserva.value.Correo;
 
     return cliente;
   }
