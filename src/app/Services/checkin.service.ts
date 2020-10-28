@@ -18,11 +18,17 @@ export class CheckinService {
     private uiService: UIService
   ) { }
 
-  guardarCheckin(checkin: Object) {
-    console.log(checkin);
+  guardarCheckin(checkin: CheckIn) {
+
     this.firestore
       .collection('checkin')
-      .add(checkin)
+      //tambien podria usarse
+      // .add({
+      //   titular: checkin.titular,
+      //   acompanantes: checkin.acompanantes,
+      //   domicilio: checkin.datosDomicilio
+      // })
+      .add(checkin.toPlainObject())      
       .then((response) =>
         this.uiService.showSnackBar(
           'Se registró el check in con éxito',
@@ -38,4 +44,23 @@ export class CheckinService {
         )
       );
   }
+
+  parsearCheckInParaFirestore(checkin: CheckIn): object {
+    const checkinParseado = checkin;
+    checkinParseado.acompanantes = Object.assign(
+      {},
+      checkinParseado.acompanantes
+    );
+    checkinParseado.titular = Object.assign(
+      {},
+      checkinParseado.titular
+    );
+    checkinParseado.datosDomicilio = Object.assign(
+      {},
+      checkinParseado.datosDomicilio
+    );
+
+    return checkinParseado;
+  }
+
 }

@@ -1,8 +1,10 @@
-export class Cliente {
+import { BaseClass } from './baseClass.model';
+
+export class Cliente extends BaseClass<Cliente> {
   dni: number;
   nombreYApellido: string;
   telefono?: number;
-  email?: string;
+  correo?: string;
   fechaNacimiento?: Date;
   
 }

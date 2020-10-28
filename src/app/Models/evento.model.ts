@@ -1,4 +1,5 @@
 import { Reserva } from './reserva.model';
+import { BaseClass } from './baseClass.model';
 
 export class Evento {
   id?: string;
