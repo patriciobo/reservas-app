@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CheckIn } from 'src/app/Models/checkin.model';
 import { CheckinService } from 'src/app/Services/checkin.service';
+import { UIService } from 'src/app/Shared/ui.service';
+import { Cliente } from 'src/app/Models/cliente.model';
+import { Vehiculo } from 'src/app/Models/vehiculo.model';
 
 @Component({
   selector: 'app-registrocheckin',
@@ -17,8 +20,15 @@ export class RegistrocheckinComponent implements OnInit {
   datosPersonalesForm: FormGroup;
   datosContactoForm: FormGroup;
   datosAcompanantesForm: FormGroup;
+  datosVehiculosForm: FormGroup;
 
-  constructor(private _formBuilder: FormBuilder, private _checkinService: CheckinService) { }
+  acompanantes: Cliente[] = [];
+  vehiculos: Vehiculo[] = [];
+
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _checkinService: CheckinService,
+    private uiService: UIService) { }
 
   ngOnInit() {
 
@@ -44,6 +54,11 @@ export class RegistrocheckinComponent implements OnInit {
       dni: [],
       fechaNacimiento: [],
     });
+    this.datosVehiculosForm = this._formBuilder.group({
+      marca: [],
+      modelo: [],
+      patente: [],
+    });
   }
 
   registrarCheckIn() {
@@ -52,10 +67,38 @@ export class RegistrocheckinComponent implements OnInit {
 
     checkIn.titular = this.datosPersonalesForm.value;
     checkIn.datosDomicilio = this.datosContactoForm.value;
-    checkIn.acompanantes = this.datosAcompanantesForm.value;
-    
+    checkIn.acompanantes = this.acompanantes;
+    checkIn.vehiculos = this.vehiculos;
+
     this._checkinService.guardarCheckin(checkIn);
 
   }
 
+  agregarAcompanante() {
+
+    const persona = this.datosAcompanantesForm.value;
+    this.acompanantes.push(persona);
+
+    this.datosAcompanantesForm.reset();
+    this.uiService.showSnackBar(
+      'La persona se agregó con éxito.',
+      null,
+      3000
+    );
+
+  }
+
+  agregarVehiculo() {
+
+    const vehiculo = this.datosVehiculosForm.value;
+    this.vehiculos.push(vehiculo);
+
+    this.datosVehiculosForm.reset();
+    this.uiService.showSnackBar(
+      'El vehículo se agregó con éxito.',
+      null,
+      3000
+    );
+
+  }
 }
