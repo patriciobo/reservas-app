@@ -1,130 +1,144 @@
-<mat-horizontal-stepper #stepper>
+<div class="container">
+  <mat-horizontal-stepper #stepper>
 
-  <!-- Datos Personales -->
-  <mat-step [stepControl]="datosPersonalesForm" errorMessage="Faltan datos obligatorios">
+    <!-- Datos Personales -->
+    <mat-step [stepControl]="datosPersonalesForm" errorMessage="Faltan datos obligatorios">
 
-    <form [formGroup]="datosPersonalesForm">
-      <ng-template matStepLabel>Datos Personales</ng-template>
+      <form [formGroup]="datosPersonalesForm">
+        <ng-template matStepLabel>Datos Personales</ng-template>
 
-      <div>
-        <mat-form-field>
-          <mat-label>Nombre</mat-label>
-          <mat-icon matSuffix>perm_identity</mat-icon>
-          <input matInput type="text" placeholder="Juan" formControlName="nombre" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Apellidos</mat-label>
-          <mat-icon matSuffix>perm_identity</mat-icon>
-          <input matInput type="text" placeholder="López Romero" formControlName="apellidos" required>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <mat-label>Número de Documento</mat-label>
-          <mat-icon matSuffix>credit_card</mat-icon>
-          <input matInput type="number" placeholder="38746321" formControlName="dni" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Teléfono</mat-label>
-          <mat-icon matSuffix>call</mat-icon>
-          <input matInput type="number" placeholder="3516432432" formControlName="telefono" required>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <mat-icon matSuffix>alternate_email</mat-icon>
-          <input matInput type="email" placeholder="juan@example.com" formControlName="email">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Fecha de Nacimiento</mat-label>
-          <input matInput type="date" formControlName="fechaNacimiento" required>
-        </mat-form-field>
-      </div>
-      <div>
-        <button mat-button matStepperNext color="primary">Siguiente</button>
-      </div>
-      <div>
-      </div>
-    </form>
-  </mat-step>
+        <div>
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <mat-icon matSuffix>perm_identity</mat-icon>
+            <input matInput type="text" placeholder="Juan" formControlName="nombre" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Apellidos</mat-label>
+            <mat-icon matSuffix>perm_identity</mat-icon>
+            <input matInput type="text" placeholder="López Romero" formControlName="apellidos" required>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Número de Documento</mat-label>
+            <mat-icon matSuffix>credit_card</mat-icon>
+            <input matInput type="number" placeholder="38746321" formControlName="dni" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Teléfono</mat-label>
+            <mat-icon matSuffix>call</mat-icon>
+            <input matInput type="number" placeholder="3516432432" formControlName="telefono" required>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <mat-icon matSuffix>alternate_email</mat-icon>
+            <input matInput type="email" placeholder="juan@example.com" formControlName="email">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Fecha de Nacimiento</mat-label>
+            <input matInput type="date" formControlName="fechaNacimiento" required>
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-button matStepperNext color="primary">Siguiente</button>
+        </div>
+        <div>
+        </div>
+      </form>
+    </mat-step>
 
-  <!-- Datos Domicilio -->
-  <mat-step [stepControl]="datosContactoForm" errorMessage="Faltan datos obligatorios">
-    <form [formGroup]="datosContactoForm">
-      <ng-template matStepLabel>Datos del Domicilio</ng-template>
-      <div>
-        <mat-form-field>
-          <mat-label>País</mat-label>
-          <input matInput type="text" placeholder="Argentina" formControlName="pais" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Provincia</mat-label>
-          <input matInput type="text" placeholder="San Juan" formControlName="provincia" required>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <mat-label>Barrio</mat-label>
-          <input matInput placeholder="General Paz" formControlName="barrio" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Calle</mat-label>
-          <input matInput type="text" placeholder="Cochabamba" formControlName="calle" required>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <mat-label>Número</mat-label>
-          <input matInput type="number" placeholder="555" formControlName="numero" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Departamento</mat-label>
-          <input matInput placeholder="7A" formControlName="departamento">
-        </mat-form-field>
-      </div>
-      <div>
-        <button mat-button matStepperPrevious color="accent">Volver</button>
-        <button mat-button matStepperNext color="primary">Siguiente</button>
-      </div>
-    </form>
-  </mat-step>
+    <!-- Datos Domicilio -->
+    <mat-step [stepControl]="datosContactoForm" errorMessage="Faltan datos obligatorios">
+      <form [formGroup]="datosContactoForm">
+        <ng-template matStepLabel>Datos del Domicilio</ng-template>
+        <div>
+          <mat-form-field>
+            <mat-label>País</mat-label>
+            <input matInput type="text" placeholder="Argentina" formControlName="pais" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Provincia</mat-label>
+            <input matInput type="text" placeholder="San Juan" formControlName="provincia" required>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Barrio</mat-label>
+            <input matInput placeholder="General Paz" formControlName="barrio" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Calle</mat-label>
+            <input matInput type="text" placeholder="Cochabamba" formControlName="calle" required>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Número</mat-label>
+            <input matInput type="number" placeholder="555" formControlName="numero" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Departamento</mat-label>
+            <input matInput placeholder="7A" formControlName="departamento">
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-button matStepperPrevious color="accent">Volver</button>
+          <button mat-button matStepperNext color="primary">Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
 
-  <!-- Datos Acompañantes -->
-  <mat-step [stepControl]="datosAcompanantesForm" errorMessage="Faltan datos obligatorios">
-    <form [formGroup]="datosAcompanantesForm">
-      <ng-template matStepLabel>Datos de Acompañantes</ng-template>
-      <div>
-        <mat-form-field>
-          <mat-label>Nombre</mat-label>
-          <mat-icon matSuffix>perm_identity</mat-icon>
-          <input matInput type="text" placeholder="Juan" formControlName="nombre">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Apellidos</mat-label>
-          <mat-icon matSuffix>perm_identity</mat-icon>
-          <input matInput type="text" placeholder="López Romero" formControlName="apellidos">
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <mat-label>Número de Documento</mat-label>
-          <mat-icon matSuffix>credit_card</mat-icon>
-          <input matInput type="number" placeholder="38746321" formControlName="dni">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Fecha de Nacimiento</mat-label>
-          <input matInput type="date" formControlName="fechaNacimiento">
-        </mat-form-field>
-        <button mat-button color="primary" (click)="agregarAcompanante()">Agregar</button>
-
-      </div>
-      <div>
-        <button mat-button matStepperPrevious color="accent">Volver</button>
-        <button mat-button matStepperNext color="primary">Siguiente</button>
-      </div>
-    </form>
-  </mat-step>
+    <!-- Datos Acompañantes -->
+    <mat-step [stepControl]="datosAcompanantesForm" errorMessage="Faltan datos obligatorios">
+      <form [formGroup]="datosAcompanantesForm">
+        <ng-template matStepLabel>Datos de Acompañantes</ng-template>
+        <div>
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <mat-icon matSuffix>perm_identity</mat-icon>
+            <input matInput type="text" placeholder="Juan" formControlName="nombre">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Apellidos</mat-label>
+            <mat-icon matSuffix>perm_identity</mat-icon>
+            <input matInput type="text" placeholder="López Romero" formControlName="apellidos">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Número de Documento</mat-label>
+            <mat-icon matSuffix>credit_card</mat-icon>
+            <input matInput type="number" placeholder="38746321" formControlName="dni">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Fecha de Nacimiento</mat-label>
+            <input matInput type="date" formControlName="fechaNacimiento">
+          </mat-form-field>
+          <button mat-button color="primary" (click)="agregarAcompanante()">Agregar
+            <mat-icon>add</mat-icon>
+          </button>
+          <mat-card *ngFor="let acompanante of acompanantes" class="card">
+            <mat-card-header>
+              <div mat-card-avatar class="avatar-image"></div>
+              <mat-card-title>{{acompanante.nombre}} {{acompanante.apellidos}}</mat-card-title>
+              <mat-card-subtitle>Número de Documento: {{acompanante.dni}}</mat-card-subtitle>
+              <mat-card-actions style="margin-top: 2%; margin-left:2%;">
+                <button mat-button color="primary" (click)="quitarAcompanante(acompanante)">Quitar
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-card-actions>
+            </mat-card-header>
+          </mat-card>
+        </div>
+        <div>
+          <button mat-button matStepperPrevious color="accent">Volver</button>
+          <button mat-button matStepperNext color="primary">Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
 
     <!-- Datos Vehiculos -->
     <mat-step [stepControl]="datosVehiculosForm" errorMessage="Faltan datos obligatorios">
@@ -148,7 +162,21 @@
             <mat-icon matSuffix>local_convenience_store</mat-icon>
             <input matInput type="text" placeholder="AAA123" formControlName="patente">
           </mat-form-field>
-          <button mat-button color="primary" (click)="agregarVehiculo()">Agregar</button>
+          <button mat-button color="primary" (click)="agregarVehiculo()">Agregar
+            <mat-icon>add</mat-icon>
+          </button>
+          <mat-card *ngFor="let vehiculo of vehiculos" class="card">
+            <mat-card-header>
+              <div mat-card-avatar class="avatar-image-vehicle"></div>
+              <mat-card-title>{{vehiculo.marca}} {{vehiculo.modelo}}</mat-card-title>
+              <mat-card-subtitle>Número de patente: {{vehiculo.patente}}</mat-card-subtitle>
+              <mat-card-actions style="margin-top: 2%; margin-left:2%;">
+                <button mat-button color="primary" (click)="quitarVehiculo(vehiculo)">Quitar
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-card-actions>
+            </mat-card-header>
+          </mat-card>
         </div>
         <div>
           <button mat-button matStepperPrevious color="accent">Volver</button>
@@ -156,6 +184,5 @@
         </div>
       </form>
     </mat-step>
-  
-
-</mat-horizontal-stepper>
+  </mat-horizontal-stepper>
+</div>

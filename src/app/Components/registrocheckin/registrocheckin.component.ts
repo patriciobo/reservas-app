@@ -10,7 +10,7 @@ import { Vehiculo } from 'src/app/Models/vehiculo.model';
 @Component({
   selector: 'app-registrocheckin',
   templateUrl: './registrocheckin.component.html',
-  styleUrls: ['./registrocheckin.component.css'],
+  styleUrls: ['./registrocheckin.component.scss'],
   providers: [{
     provide: STEPPER_GLOBAL_OPTIONS, useValue: { showError: true }
   }]
@@ -99,6 +99,36 @@ export class RegistrocheckinComponent implements OnInit {
       null,
       3000
     );
+  }
+
+  quitarVehiculo(vehiculo) {
+    const index: number = this.vehiculos.indexOf(vehiculo);
+
+    if (index !== -1) {
+      this.vehiculos.splice(index, 1);
+    }
+
+    this.uiService.showSnackBar(
+      'El vehículo se quitó de la lista.',
+      null,
+      3000
+    );
 
   }
+
+  quitarAcompanante(acompanante) {
+    const index: number = this.acompanantes.indexOf(acompanante);
+
+    if (index !== -1) {
+      this.acompanantes.splice(index, 1);
+    }
+
+    this.uiService.showSnackBar(
+      'La persona se quitó de la lista.',
+      null,
+      3000
+    );
+
+  }
+
 }
