@@ -21,7 +21,7 @@ export class RegistrocheckinComponent implements OnInit {
   datosContactoForm: FormGroup;
   datosAcompanantesForm: FormGroup;
   datosVehiculosForm: FormGroup;
-
+  cancelacionPagoForm: FormGroup;
   acompanantes: Cliente[] = [];
   vehiculos: Vehiculo[] = [];
 
@@ -39,6 +39,7 @@ export class RegistrocheckinComponent implements OnInit {
       telefono: [],
       email: [],
       fechaNacimiento: [],
+      codigoPostal: [],
     });
     this.datosContactoForm = this._formBuilder.group({
       pais: [],
@@ -59,6 +60,12 @@ export class RegistrocheckinComponent implements OnInit {
       modelo: [],
       patente: [],
     });
+    this.cancelacionPagoForm = this._formBuilder.group({
+      sena: [],
+      total: [],
+      remanente: [],
+    });
+
   }
 
   registrarCheckIn() {

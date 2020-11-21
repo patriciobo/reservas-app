@@ -43,6 +43,13 @@
           </mat-form-field>
         </div>
         <div>
+          <mat-form-field>
+            <mat-label>Código Postal</mat-label>
+            <input matInput type="string" formControlName="fechaNacimiento">
+          </mat-form-field>
+        </div>
+
+        <div>
           <button mat-button matStepperNext color="primary">Siguiente</button>
         </div>
         <div>
@@ -99,23 +106,23 @@
           <mat-form-field>
             <mat-label>Nombre</mat-label>
             <mat-icon matSuffix>perm_identity</mat-icon>
-            <input matInput type="text" placeholder="Juan" formControlName="nombre">
+            <input matInput type="text" placeholder="Juan" formControlName="nombre" required>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Apellidos</mat-label>
             <mat-icon matSuffix>perm_identity</mat-icon>
-            <input matInput type="text" placeholder="López Romero" formControlName="apellidos">
+            <input matInput type="text" placeholder="López Romero" formControlName="apellidos" required>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field>
             <mat-label>Número de Documento</mat-label>
             <mat-icon matSuffix>credit_card</mat-icon>
-            <input matInput type="number" placeholder="38746321" formControlName="dni">
+            <input matInput type="number" placeholder="38746321" formControlName="dni" required> 
           </mat-form-field>
           <mat-form-field>
             <mat-label>Fecha de Nacimiento</mat-label>
-            <input matInput type="date" formControlName="fechaNacimiento">
+            <input matInput type="date" formControlName="fechaNacimiento" required>
           </mat-form-field>
           <button mat-button color="primary" (click)="agregarAcompanante()">Agregar
             <mat-icon>add</mat-icon>
@@ -184,5 +191,29 @@
         </div>
       </form>
     </mat-step>
+
+      <!-- Cancelación Pago -->
+      <mat-step [stepControl]="cancelacionPagoForm" errorMessage="Faltan datos obligatorios">
+        <form [formGroup]="cancelacionPagoForm">
+          <ng-template matStepLabel>Pago de Hospedaje</ng-template>
+          <div>
+            <mat-form-field>
+              <mat-label>Total</mat-label>
+              <input matInput type="text" placeholder="Argentina" formControlName="total" required>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Seña</mat-label>
+              <input matInput type="text" placeholder="San Juan" formControlName="sena" required>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Remanente</mat-label>
+              <input matInput placeholder="General Paz" formControlName="remanente" required>
+            </mat-form-field>
+          </div>          
+        </form>
+      </mat-step>
+  
   </mat-horizontal-stepper>
 </div>
