@@ -6,7 +6,7 @@
         <mat-card-content>
           <mat-list>
 
-            <mat-list-item *ngFor="let evento of eventos" class="card"
+            <mat-list-item *ngFor="let evento of eventos; index as eventoId" class="card"
               [ngStyle]="{'background-color': evento.extendedProps.estado.color}">
 
               <h3 matLine>Titular de Reserva: {{evento.extendedProps.cliente.nombreYApellido}}</h3>
@@ -36,8 +36,11 @@
               </mat-accordion>
 
               <mat-card-actions style="margin-top: 2%; margin-left:2%">
-                <a mat-button [routerLink]="['/registrocheckin']"> Realizar Check In <mat-icon
+                <a mat-button [routerLink]="['/registrocheckin', evento.id]"> Realizar Check In <mat-icon
                     title="Realizar Check IN">filter_frames</mat-icon></a>
+  
+                 <!-- <a mat-button (click)="checkIn(this)"> Realizar Check In 
+                   <mat-icon title="Realizar Check IN">filter_frames</mat-icon></a> -->
               </mat-card-actions>
 
             </mat-list-item>

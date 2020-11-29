@@ -33,12 +33,12 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'registrocheckin',
+    path: 'registrocheckin/:reservaId',
     component: RegistrocheckinComponent,
     canActivate: [AuthGuard],
   },
 
-  { path: '**', redirectTo: '/registrocheckin' },
+  { path: '**', redirectTo: '/calendario' },
 ];
 
 @NgModule({

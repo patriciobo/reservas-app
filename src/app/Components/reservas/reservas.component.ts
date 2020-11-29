@@ -8,7 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Reserva } from 'src/app/Models/reserva.model';
-import { ReservaService } from 'src/app/Services/reserva.service';
+import { ReservaService } from 'src/app/Services/evento.service';
 import { UIService } from 'src/app/Shared/ui.service';
 
 @Component({

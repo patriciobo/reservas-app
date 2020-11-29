@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { CheckIn } from 'src/app/Models/checkin.model';
@@ -6,6 +6,11 @@ import { CheckinService } from 'src/app/Services/checkin.service';
 import { UIService } from 'src/app/Shared/ui.service';
 import { Cliente } from 'src/app/Models/cliente.model';
 import { Vehiculo } from 'src/app/Models/vehiculo.model';
+import { Reserva } from 'src/app/Models/reserva.model';
+import { ActivatedRoute } from '@angular/router';
+import { ReservaService } from 'src/app/Services/evento.service';
+import { Subscription } from 'rxjs';
+import { Evento } from 'src/app/Models/evento.model';
 
 @Component({
   selector: 'app-registrocheckin',
@@ -17,6 +22,7 @@ import { Vehiculo } from 'src/app/Models/vehiculo.model';
 })
 export class RegistrocheckinComponent implements OnInit {
 
+  reservaId: string;
   datosPersonalesForm: FormGroup;
   datosContactoForm: FormGroup;
   datosAcompanantesForm: FormGroup;
@@ -24,13 +30,31 @@ export class RegistrocheckinComponent implements OnInit {
   cancelacionPagoForm: FormGroup;
   acompanantes: Cliente[] = [];
   vehiculos: Vehiculo[] = [];
+  evento: Evento;
+  eventosSubscription: Subscription;
 
   constructor(
     private _formBuilder: FormBuilder,
     private _checkinService: CheckinService,
-    private uiService: UIService) { }
+    private uiService: UIService,
+    private route: ActivatedRoute,
+    private reservaService: ReservaService,
+
+    ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {      
+      this.reservaId = params.reservaId;
+    });
+
+    this.eventosSubscription = this.reservaService.eventosChanged.subscribe(
+      (eventos) => {
+        this.evento = eventos.find(x => x.id == this.reservaId);
+      }
+    );
+
+    this.reservaService.buscarEventos();
+
 
     this.datosPersonalesForm = this._formBuilder.group({
       nombre: [],
@@ -76,7 +100,7 @@ export class RegistrocheckinComponent implements OnInit {
     checkIn.datosDomicilio = this.datosContactoForm.value;
     checkIn.acompanantes = this.acompanantes;
     checkIn.vehiculos = this.vehiculos;
-
+    checkIn.evento = this.evento;
     this._checkinService.guardarCheckin(checkIn);
 
   }
@@ -137,5 +161,5 @@ export class RegistrocheckinComponent implements OnInit {
     );
 
   }
-
+  
 }

@@ -34,7 +34,8 @@ export class ReservaService {
             evento.end = evento.end.toDate();
 
             evento.extendedProps.cabana = evento.extendedProps.cabana;
-
+            evento.extendedProps.montoSenia = evento.extendedProps.montoSenia;
+            evento.extendedProps.montoTotal = evento.extendedProps.montoTotal;
             evento.extendedProps.fechaDesde = evento.extendedProps.fechaDesde.toDate();
             evento.extendedProps.fechaHasta = evento.extendedProps.fechaHasta.toDate();
             return evento;

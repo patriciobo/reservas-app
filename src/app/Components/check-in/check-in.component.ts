@@ -6,8 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Evento } from 'src/app/Models/evento.model';
 import { Reserva } from 'src/app/Models/reserva.model';
-import { ReservaService } from 'src/app/Services/reserva.service';
+import { ReservaService } from 'src/app/Services/evento.service';
 import { UIService } from 'src/app/Shared/ui.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-check-in',
@@ -44,12 +45,13 @@ export class CheckInComponent implements OnInit {
 
   constructor(
     private reservaService: ReservaService,
-    private uiService: UIService
+    private uiService: UIService,
   ) { }
 
 
 
   ngOnInit(): void {
+
     this.isLoadingSubscription = this.uiService.loadingStateChanged.subscribe(
       (isLoading) => (this.isLoading = isLoading)
     );
@@ -62,6 +64,7 @@ export class CheckInComponent implements OnInit {
         });
 
         this.eventos = eventos;
+        console.log(eventos);
       }
     );
 

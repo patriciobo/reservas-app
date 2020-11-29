@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { ReservaService } from '../../Services/reserva.service';
+import { ReservaService } from '../evento.service';
 import { AuthData } from './auth-data.model';
 import { UIService } from '../../Shared/ui.service';
 

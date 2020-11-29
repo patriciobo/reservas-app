@@ -17,7 +17,7 @@ import { Cliente } from '../../../Models/cliente.model';
 import { Evento } from '../../../Models/evento.model';
 import { Colors } from '../../../Shared/colors';
 
-import { ReservaService } from '../../../Services/reserva.service';
+import { ReservaService } from '../../../Services/evento.service';
 import { UIService } from 'src/app/Shared/ui.service';
 import { TarifaService } from 'src/app/Services/tarifa.service';
 import { Estado } from 'src/app/Models/estado.model';
@@ -223,7 +223,8 @@ export class FormReservaComponent implements OnInit, OnDestroy {
     reserva.cabana = this.cabanas.find(x => x.numero == reserva.idCabania);
 
     reserva.estado = this.determinarEstadoReserva(reserva);
-
+    reserva.realizoCheckIn = false;
+    
     return reserva;
   }
 

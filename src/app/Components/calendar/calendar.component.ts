@@ -14,7 +14,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 
 import { FormReservaComponent } from './form-reserva/form-reserva.component';
 
-import { ReservaService } from '../../Services/reserva.service';
+import { ReservaService } from '../../Services/evento.service';
 import { UIService } from '../../Shared/ui.service';
 import { CabanaService } from 'src/app/Services/cabana.service';
 import { Cabana } from 'src/app/Models/cabana.model';

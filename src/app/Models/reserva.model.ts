@@ -14,4 +14,5 @@ export class Reserva extends BaseClass<Reserva> {
   montoTotal: number;
   estado: Estado;
   cabana: Cabana;
+  realizoCheckIn: boolean;
 }

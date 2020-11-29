@@ -21,7 +21,7 @@ import { DisponibilidadComponent } from './Components/disponibilidad/disponibili
 import { LoginComponent } from './Services/auth/login/login.component';
 import { SignupComponent } from './Services/auth/signup/signup.component';
 import { AuthService } from './Services/auth/auth.service';
-import { ReservaService } from './Services/reserva.service';
+import { ReservaService } from './Services/evento.service';
 import { UIService } from './Shared/ui.service';
 
 import { environment } from 'src/environments/environment';

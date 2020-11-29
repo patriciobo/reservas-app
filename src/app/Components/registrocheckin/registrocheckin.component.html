@@ -118,7 +118,7 @@
           <mat-form-field>
             <mat-label>Número de Documento</mat-label>
             <mat-icon matSuffix>credit_card</mat-icon>
-            <input matInput type="number" placeholder="38746321" formControlName="dni" required> 
+            <input matInput type="number" placeholder="38746321" formControlName="dni" required>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Fecha de Nacimiento</mat-label>
@@ -187,33 +187,34 @@
         </div>
         <div>
           <button mat-button matStepperPrevious color="accent">Volver</button>
-          <button mat-button matStepperNext color="primary" (click)="registrarCheckIn()">Guardar</button>
         </div>
       </form>
     </mat-step>
 
-      <!-- Cancelación Pago -->
-      <mat-step [stepControl]="cancelacionPagoForm" errorMessage="Faltan datos obligatorios">
-        <form [formGroup]="cancelacionPagoForm">
-          <ng-template matStepLabel>Pago de Hospedaje</ng-template>
-          <div>
-            <mat-form-field>
-              <mat-label>Total</mat-label>
-              <input matInput type="text" placeholder="Argentina" formControlName="total" required>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Seña</mat-label>
-              <input matInput type="text" placeholder="San Juan" formControlName="sena" required>
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field>
-              <mat-label>Remanente</mat-label>
-              <input matInput placeholder="General Paz" formControlName="remanente" required>
-            </mat-form-field>
-          </div>          
-        </form>
-      </mat-step>
-  
+    <!-- Cancelación Pago -->
+    <mat-step [stepControl]="cancelacionPagoForm" errorMessage="Faltan datos obligatorios">
+      <form [formGroup]="cancelacionPagoForm">
+        <ng-template matStepLabel>Pago de Hospedaje</ng-template>
+        <div>
+          <mat-form-field>
+            <mat-label>Total:</mat-label>
+            <input [(ngModel)]="evento?.extendedProps.montoTotal" matInput type="text" formControlName="total">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Seña:</mat-label>
+            <input [(ngModel)]="evento?.extendedProps.montoSenia" matInput type="text" formControlName="sena">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field>
+            <mat-label>Remanente:</mat-label>
+            <input matInput formControlName="remanente">
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-button matStepperNext color="primary" (click)="registrarCheckIn()">Guardar</button>
+        </div>
+      </form>
+    </mat-step>
   </mat-horizontal-stepper>
 </div>
