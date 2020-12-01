@@ -112,7 +112,7 @@ export class RegistrocheckinComponent implements OnInit {
 
     this.datosAcompanantesForm.reset();
     this.uiService.showSnackBar(
-      'La persona se agregó con éxito.',
+      'La persona sse agregó con éxito.',
       null,
       3000
     );
